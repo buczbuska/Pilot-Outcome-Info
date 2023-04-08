@@ -1,0 +1,105 @@
+---
+title: 'Outcome and concepts: pilot study'
+author: "Bartosz Janik"
+date: "2023-04-05"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Abstract
+
+## Introduction
+
+Rachlinski and colleagues (2011) examined the decisions made by judges in cases in which the probable cause standard was used. They observed that when making those judgments judges might be prone to the hindsight bias as huge part of those judgments are made when determining whether to allow the admission of evidence obtained without a search warrant. The usual situation though is when the are determining ex ante whether to issue a search warrant. Based on the research on the hindsight bias they hypothesized that judges will not be able to set aside the acquired knowledge and judge probable cause as if they were working in foresight. They established, however that judges make similar rulings on probable cause in foresight and in hindsight. What is more, they have found that hindsight cloud judges’ abilities to assess the likely outcome of the search (but only in certain cases), but does not influence their legal judgments in hindsight.
+
+Tobia (2020) investigated the validity of reasoning from ordinary concepts to concepts of people with legal expertise. In his experiments he examined what it means to act intentionally for four populations of subjects: lay people, law students, non-law students and US judges (legal experts). His results indicate that legal training affected judgments in three ways. He further suggests, based on the data, that in those cases we are witnessing the case of acquisition of a distinctive legal concept. The general conclusion of the study is that evidence about laypeople’s ordinary concepts  does not necessarily carry straightforward legal implications. What is interesting for us, Tobia’s design (2020) in one of the experiments was 2 Context (ordinary or legal) x 2 Severity (moderate vs severe). In the Context condition the instruction for the participants was added indicating that the participant should imagine herself as a state judge in Dakota and relevant legal provisions were added.
+
+Based on those two cases and bearing in mind other experiments from the experimental jurisprudence we tried to further extend their findings by: checking to what extend categorical legal decisions and likelihood judgments might be prone to the outcome effect and does the information concerning definition and criteria of application of a legal concept might moderate the effect of an outcome. We thus assumed, following Tobia (2020) dissimilarity theory of legal concepts according to which the legal concept is similar to the ordinary concept in some ways, but is distinctive in other ways. What is more, we assumed that by asking the categorical question pertaining to the legal issue at hand, lay participants, having a required definition and criteria of application of legal concept will apply the concept correctly thus being immune to the outcome effect (Rachlinski, 2011).
+
+
+## Methods
+
+Based of the theoretical insights, we hypothesized that even partial acquisition of the relevant concept should ameliorate the bias among the laypeople in case of the categorical questions and will result in bias on question when Likert scale will be used. To check to what this effect is due to the legal information provided we included the presence of the legal information as experimental condition. To test this hypothesis we constructed a simple vignette describing a legal case, similar to the case used by Rachlinski and colleagues (2011) but with certain changes to harmonize it with the polish criminal procedure (in polish criminal procedure a contept of “good reason”, similar to the concepts of reasonable suspicion plays a role analogical to the role of probable cause). We decided to run this case only on laypeople. Our design was thus 2 Outcome (Neutral vs Bad) x 2 (Legal information: Yes vs No).
+After presenting the vignette, participants were asked whether a policeman had a good reason for conducting the search (Yes/No) and to assume a role of a prosecutor and answer the question whether they approve the search (Yes/No). Third question asked to the participants was to assess the goodness of the reasons on a Likert scale (1-7).
+
+## Results
+### Main analyses
+
+Due to the binary nature of the first two questions (variables "pojazd_q0" and “pojazd_q2” respectively), a logistic regression analysis were conducted. Two separate logistic regressions, one for every categorical question, were performed with questions as response variables and outcome (“przeszukanie”) and information (“info”) as the predictor variables. The interaction term was also included in the model. What is more, the post hoc test pairwise comparisons of estimated marginal means using Bonferroni adjustment was performed.
+
+```{r}
+library(readxl)
+library(emmeans)
+data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
+model1 <- glm(pojazd_q0 ~ przeszukanie * info, data = data, family=binomial)
+summary(model1)
+
+emms1 <- emmeans(model1, ~ przeszukanie * info)
+pairs(emms1, adjust = "bonferroni")
+```
+
+```{r}
+library(readxl)
+library(emmeans)
+data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
+model2 <- glm(pojazd_q2 ~ przeszukanie * info, data = data, family=binomial)
+summary(model2)
+
+emms1 <- emmeans(model2, ~ przeszukanie * info)
+pairs(emms1, adjust = "bonferroni")
+```
+Overall, first model suggests that neither outcome nor info have a significant effect on the log odds of first question, and there is no significant interaction effect between these two independent variables. However, results, although insignificant, suggests that coefficient outcome has a positive effect on the log odds of the positive answer to the question.
+
+Similarly, second model suggests that neither outcome nor info have a significant effect on the log odds of second question, and there is no significant interaction effect between these two independent variables. Similarly, results, although insignificant, suggests that coefficient outcome has a positive effect on the log odds of the answer to the question.
+
+In both cases the post hoc pairwise comparisons of estimated marginal means using Bonferroni adjustment given no significant differences between the means. 
+
+For the third question (“pojazd_q3_1”) a two-way ANOVA was performed to examine the effects of outcome and information. The post hoc HSD test was performed.
+
+```{r}
+library(car)
+data2 <- within(data, {
+  przeszukanie <- factor(przeszukanie)
+  info <- factor(info)
+})
+my_anova <- aov(pojazd_q3_1 ~ przeszukanie * info, data = data2) 
+hsd <- TukeyHSD(my_anova)
+summary(my_anova)
+print(hsd)
+```
+
+The ANOVA output shows the results of testing the main effects of outcome and info, as well as their interaction (outcome:info). Based on it, there is a significant main effect of outcome on the assessment of the goodness of the reason, but no significant main effect of info or interaction between outcome and info. The Tukey HSD post hoc test result showed significant differences between conditions in which there were different outcomes. Eta squared and partial eta squared that 11% of variance in the dependent variable is explained by the variable outcome. 
+
+```{r}
+library(effsize)
+library(car)
+library(lsr)
+
+eta_sq <- etaSquared(my_anova) 
+print(eta_sq)
+
+```
+
+### Additional
+```{r}
+model3 <- model1 <- glm(pojazd_q0 ~ pojazd_q3_1 + przeszukanie + info, data = data, family=binomial)
+summary(model3)
+```
+
+## Discussion
+
+This study is a mix of research programs of biases in legal decision making and acquisition of legal concepts. Tobia (2020) claims that the second of those programs faces a distinctive problem as finding that the legal concept is different form an ordinary concept invites a discussion on to what extent they should be similar or dissimilar and the empirical study cannot offer the definite answer to that dilemma. This study aims at something different. This study aimed at investigated the possible interaction between legal information provided and susceptibility to the outcome effect between the laypeople. 
+
+The results of the pilot experiment might be summarized in a few main themes.
+
+1.	For categorical questions outcome effect apparently is not working but for the continuous variable, the main effect of outcome is significant. To account for that, we might assume that to answer the categorical question, one should have the appropriate gist (or a confidence level), which was not achieved in this experimental case. This might be further analyzed.
+
+2.	There was no effect of legal information. This lack of effect was observable for all three questions asked. This might be an effect of an insufficient exposition to the legal concept or lack of proper learning phase of the concept. The exposition to the information considering the content of the legal concept might be not enough to override the ordinary meaning of the concept that participants should possess. Further studies including the longer familiarization phase (or learning through examples) or using the concept that lacks the ordinary meaning should be conducted.   
+
+3.	The results of the present study might be perceived as partially similar to the studies done before. For example this is a similar pattern to that observed by Rachlinski and colleagues (2011) because according to them legal judgments were not affected but the probability assessments were affected by the hindsight bias. 
+
