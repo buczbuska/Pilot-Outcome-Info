@@ -103,3 +103,11 @@ The results of the pilot experiment might be summarized in a few main themes.
 
 3.	The results of the present study might be perceived as partially similar to the studies done before. For example this is a similar pattern to that observed by Rachlinski and colleagues (2011) because according to them legal judgments were not affected but the probability assessments were affected by the hindsight bias. 
 
+## Playground
+```{r}
+library("psych")
+dataframe <- data.frame(data)
+describe(dataframe)
+```
+
+
