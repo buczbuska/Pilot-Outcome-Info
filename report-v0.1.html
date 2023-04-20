@@ -1813,7 +1813,6 @@ to examine the effects of outcome and information. The post hoc HSD test
 was performed.</p>
 <pre class="r"><code>library(car)</code></pre>
 <pre><code>## Warning: pakiet &#39;car&#39; został zbudowany w wersji R 4.2.3</code></pre>
-<pre><code>## Ładowanie wymaganego pakietu: carData</code></pre>
 <pre class="r"><code>data2 &lt;- within(data, {
   przeszukanie &lt;- factor(przeszukanie)
   info &lt;- factor(info)
@@ -1944,14 +1943,6 @@ assessments were affected by the hindsight bias.</p></li>
 <h2>Playground</h2>
 <pre class="r"><code>library(&quot;psych&quot;)</code></pre>
 <pre><code>## Warning: pakiet &#39;psych&#39; został zbudowany w wersji R 4.2.3</code></pre>
-<pre><code>## 
-## Dołączanie pakietu: &#39;psych&#39;</code></pre>
-<pre><code>## Następujący obiekt został zakryty z &#39;package:effsize&#39;:
-## 
-##     cohen.d</code></pre>
-<pre><code>## Następujący obiekt został zakryty z &#39;package:car&#39;:
-## 
-##     logit</code></pre>
 <pre class="r"><code>dataframe &lt;- data.frame(data)
 describe(dataframe)</code></pre>
 <pre><code>## Warning in FUN(newX[, i], ...): brak argumentów w min; zwracanie wartości Inf</code></pre>

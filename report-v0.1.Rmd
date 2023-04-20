@@ -32,7 +32,7 @@ After presenting the vignette, participants were asked whether a policeman had a
 
 Due to the binary nature of the first two questions (variables "pojazd_q0" and “pojazd_q2” respectively), a logistic regression analysis were conducted. Two separate logistic regressions, one for every categorical question, were performed with questions as response variables and outcome (“przeszukanie”) and information (“info”) as the predictor variables. The interaction term was also included in the model. What is more, the post hoc test pairwise comparisons of estimated marginal means using Bonferroni adjustment was performed.
 
-```{r}
+```{r message=FALSE}
 library(readxl)
 library(emmeans)
 data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
@@ -43,7 +43,7 @@ emms1 <- emmeans(model1, ~ przeszukanie * info)
 pairs(emms1, adjust = "bonferroni")
 ```
 
-```{r}
+```{r message=FALSE}
 library(readxl)
 library(emmeans)
 data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
@@ -61,7 +61,7 @@ In both cases the post hoc pairwise comparisons of estimated marginal means usin
 
 For the third question (“pojazd_q3_1”) a two-way ANOVA was performed to examine the effects of outcome and information. The post hoc HSD test was performed.
 
-```{r}
+```{r message=FALSE}
 library(car)
 data2 <- within(data, {
   przeszukanie <- factor(przeszukanie)
@@ -75,7 +75,7 @@ print(hsd)
 
 The ANOVA output shows the results of testing the main effects of outcome and info, as well as their interaction (outcome:info). Based on it, there is a significant main effect of outcome on the assessment of the goodness of the reason, but no significant main effect of info or interaction between outcome and info. The Tukey HSD post hoc test result showed significant differences between conditions in which there were different outcomes. Eta squared and partial eta squared that 11% of variance in the dependent variable is explained by the variable outcome. 
 
-```{r}
+```{r message=FALSE}
 library(effsize)
 library(car)
 library(lsr)
@@ -86,7 +86,7 @@ print(eta_sq)
 ```
 
 ### Additional
-```{r}
+```{r message=FALSE}
 model3 <- model1 <- glm(pojazd_q0 ~ pojazd_q3_1 + przeszukanie + info, data = data, family=binomial)
 summary(model3)
 ```
@@ -104,7 +104,7 @@ The results of the pilot experiment might be summarized in a few main themes.
 3.	The results of the present study might be perceived as partially similar to the studies done before. For example this is a similar pattern to that observed by Rachlinski and colleagues (2011) because according to them legal judgments were not affected but the probability assessments were affected by the hindsight bias. 
 
 ## Playground
-```{r}
+```{r message=FALSE}
 library("psych")
 dataframe <- data.frame(data)
 describe(dataframe)
