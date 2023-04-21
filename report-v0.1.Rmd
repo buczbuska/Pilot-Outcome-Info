@@ -103,6 +103,37 @@ The results of the pilot experiment might be summarized in a few main themes.
 
 3.	The results of the present study might be perceived as partially similar to the studies done before. For example this is a similar pattern to that observed by Rachlinski and colleagues (2011) because according to them legal judgments were not affected but the probability assessments were affected by the hindsight bias. 
 
+## Appendix
+### Vignette
+
+While on patrol in one of Krakow's neighborhoods, where a large rock concert was taking place, police officer Marcin P. noticed in the parking lot a nervously behaving man getting out of his BMW and rearranging some objects in the trunk of his car. The man then met up with an acquaintance, bought concert tickets from him and entered the hall where the concert was being held. After several minutes, the policeman noticed that one of teh windows in the car is half-open. Fearing that someone might commit a burglary, he approached the car. Upon approaching the car, he smelled something that seemed similar to the familiar smell of burnt methamphetamine from drug training a few years ago. The policeman looked into the car, but saw nothing that could be an illegal substance. Other than that, he noticed eye drops, a map of the area and several empty beer bottles in the car.
+
+[Outcome-Neutral]
+Based on his experience and assessment of the situation, the policeman conducted a search of the car and found nothing in it.
+
+[Outcome-Bad]
+Based on his experience and assessment of the situation, the police officer searched the car and found a package containing half a kilogram of methamphetamine hidden under the seat.
+
+After the search, the police officer asked the prosecutor to approve the search and determine its legality.
+
+[Info]
+Legal basis:
+
+Article  219. 
+
+§1. A search may be conducted on premises and in other places to detect or arrest a person or to enforce their compulsory appearance, as well as to locate objects which might serve as evidence in a case or be subject to seizure in criminal proceedings, if there is good a reason to suppose that the suspected person or the objects are to be located there.
+
+§2. In order to find the objects referred to in § 1 and on the condition set forth in that provision, and having regard to the rules and limitations set out in Article 227, a search of a person, their clothing and objects at hand may also be carried out.
+
+Comment: according to the literature, the supposition in question is a subjective judgment about what was, is or will be in reality, arising in the psyche of a person under the influence of the information he has about events, knowledge of the regularities in the surrounding world, individual ability to associate facts and other factors. Moreover, the decision to search must have a rational justification and be based on a real probability derived from the reliable information gathered; it is not permissible to intuitively search any place with which the wanted person has ever had contact.
+
+### Questions
+Q1: At the time of the decision, did the police officer have reasonable grounds to suppose that drugs might be in the car and could have searched the car? [Yes/No]
+
+Q2: Imagine that you are a prosecutor who has to make a search approval. The decision hinges on the recognition that the police officer had reasonable grounds to believe that there were drugs in the car. In your opinion, at the time of the decision, did the police officer have reasonable grounds and you approve the search? [Yes/No]
+
+Q3: How justified was the police officer's basis for supposing that there were drugs in the car? [Likert scale: 1-7]
+
 ## Playground
 ```{r message=FALSE}
 library("psych")
