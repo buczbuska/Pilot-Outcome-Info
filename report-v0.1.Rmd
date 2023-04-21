@@ -5,10 +5,11 @@ date: "2023-04-05"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ```
 
 ## Abstract
@@ -28,14 +29,18 @@ Based of the theoretical insights, we hypothesized that even partial acquisition
 After presenting the vignette, participants were asked whether a policeman had a good reason for conducting the search (Yes/No) and to assume a role of a prosecutor and answer the question whether they approve the search (Yes/No). Third question asked to the participants was to assess the goodness of the reasons on a Likert scale (1-7).
 
 ## Results
+
+### Sample
+A total of 161 people were surveyed. Due to the legal background, seven people were excluded giving a final sample equal to 154. The mean age of the participants was 26.4, and the median age was 24. The majority of the sample was male (112(72.7%)), two people chose different gender, and one preferred not to answer this question.
+
 ### Main analyses
 
 Due to the binary nature of the first two questions (variables "pojazd_q0" and “pojazd_q2” respectively), a logistic regression analysis were conducted. Two separate logistic regressions, one for every categorical question, were performed with questions as response variables and outcome (“przeszukanie”) and information (“info”) as the predictor variables. The interaction term was also included in the model. What is more, the post hoc test pairwise comparisons of estimated marginal means using Bonferroni adjustment was performed.
 
-```{r message=FALSE}
+```{r}
 library(readxl)
 library(emmeans)
-data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
+data <- read_excel("Outcome-expertise-PL-DATA.xlsx")
 model1 <- glm(pojazd_q0 ~ przeszukanie * info, data = data, family=binomial)
 summary(model1)
 
@@ -43,10 +48,10 @@ emms1 <- emmeans(model1, ~ przeszukanie * info)
 pairs(emms1, adjust = "bonferroni")
 ```
 
-```{r message=FALSE}
+```{r}
 library(readxl)
 library(emmeans)
-data <- read_excel("C:/Users/Bartosz Janik/Mój dysk/Code/R/Pilot-Outcome-Info/Outcome-expertise-PL-DATA.xlsx")
+data <- read_excel("Outcome-expertise-PL-DATA.xlsx")
 model2 <- glm(pojazd_q2 ~ przeszukanie * info, data = data, family=binomial)
 summary(model2)
 
@@ -61,7 +66,7 @@ In both cases the post hoc pairwise comparisons of estimated marginal means usin
 
 For the third question (“pojazd_q3_1”) a two-way ANOVA was performed to examine the effects of outcome and information. The post hoc HSD test was performed.
 
-```{r message=FALSE}
+```{r}
 library(car)
 data2 <- within(data, {
   przeszukanie <- factor(przeszukanie)
@@ -75,7 +80,7 @@ print(hsd)
 
 The ANOVA output shows the results of testing the main effects of outcome and info, as well as their interaction (outcome:info). Based on it, there is a significant main effect of outcome on the assessment of the goodness of the reason, but no significant main effect of info or interaction between outcome and info. The Tukey HSD post hoc test result showed significant differences between conditions in which there were different outcomes. Eta squared and partial eta squared that 11% of variance in the dependent variable is explained by the variable outcome. 
 
-```{r message=FALSE}
+```{r}
 library(effsize)
 library(car)
 library(lsr)
@@ -86,7 +91,7 @@ print(eta_sq)
 ```
 
 ### Additional
-```{r message=FALSE}
+```{r}
 model3 <- model1 <- glm(pojazd_q0 ~ pojazd_q3_1 + przeszukanie + info, data = data, family=binomial)
 summary(model3)
 ```
@@ -135,7 +140,7 @@ Q2: Imagine that you are a prosecutor who has to make a search approval. The dec
 Q3: How justified was the police officer's basis for supposing that there were drugs in the car? [Likert scale: 1-7]
 
 ## Playground
-```{r message=FALSE}
+```{r}
 library("psych")
 dataframe <- data.frame(data)
 describe(dataframe)
