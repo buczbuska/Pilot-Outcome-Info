@@ -3,9 +3,9 @@ title: 'Outcome and concepts: pilot study'
 author: "Bartosz Janik"
 date: "2023-04-05"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -96,6 +96,39 @@ cohens_f <- cohens_f(my_anova)
 print(cohens_f)
 ```
 
+### Exploratory analyses
+
+```{r}
+library(readxl)
+data <- read_excel("Outcome-expertise-PL-DATA.xlsx")
+model_exploratory1 <- glm(pojazd_q0 ~ przeszukanie * info + pojazd_q3_1, data = data, family=binomial)
+summary(model_exploratory1)
+
+model_exploratory2 <- glm(pojazd_q2 ~ przeszukanie * info + pojazd_q3_1, data = data, family=binomial)
+summary(model_exploratory2)
+```
+
+```{r}
+data$above_thresh <- ifelse(data$pojazd_q3_1 > 3.7, 1, 0)
+model_exploratory3 <- glm(pojazd_q2 ~ przeszukanie * info + pojazd_q3_1 + above_thresh, data = data, family=binomial)
+summary(model_exploratory3)
+
+model_exploratory4 <- glm(pojazd_q2 ~ przeszukanie * info + above_thresh, data = data, family=binomial)
+summary(model_exploratory4)
+```
+
+```{r}
+threshold <- -coef(model_exploratory1)["(Intercept)"] / coef(model_exploratory1)["pojazd_q3_1"]
+print(threshold)
+
+library(ggplot2)
+
+ggplot(data, aes(x = pojazd_q3_1)) +
+  stat_ecdf() +
+  geom_vline(aes(xintercept = threshold), linetype = "dashed") +
+  labs(x = "Likert scale response", y = "Cumulative proportion")
+```
+
 ## Discussion
 
 This study is a mix of research programs on biases in legal decision making and on acquisition of legal concepts. Tobia (2020) claims that the second of those programs faces a distinctive problem as finding that the legal concept is different form an ordinary concept invites a discussion on to what extent they should be similar or dissimilar and the empirical study cannot offer the definite answer to that dilemma. This study aimes at investigation the problem on the intersection on this research programs, the possible interaction between legal information provided and susceptibility to the outcome effect in laypeople. 
@@ -108,7 +141,25 @@ The results of the pilot experiment might be summarized in a few main themes.
 
 3.	The results of the present study might be perceived as partially similar to the studies done before. For example this is a similar pattern to that observed by Rachlinski and colleagues (2011) because according to them legal judgments were not affected but the probability assessments were affected by the hindsight bias. 
 
+4. Based on Tobia's (2020) work and the results of the present experiment, one might ask to what extent the information given to the laypeople differed from the information associated with the folk concept of a "good reason". The possible explanation for the lack of an effect of information might be similar content of the folk and the legal concept of a good reason.
+
 ### Limitations and further study
+
+The main limitation of this study is the intuitive approach to concept acquisition in which we assumed that people presented with information concerning the concept are immediately gaining knowledge and (partial) expertise in concept application. 
+
+Moreover, the lack of a legal sample might be perceived as a limitation of the study and a significant obstacle to drawing inferences about the legal concepts and expertise.
+
+Additionally, the use of a concept of a good reason, which might have strong folk meaning, might be problematic and possibly limit the scope of the possible conclusions.
+
+Based on this, further research directions are:
+
+1. Re-run this study on a professional sample.
+
+2. Add additional protocols for concept acquisition and possibly ensure that subjects learn how to use the legal concept in question.
+
+3. Test to what extent the results are replicated using different legal concepts, especially those which lack strong folk meaning (or their meaning is fully legal).
+
+4. Test whether, by designing new cases, the threshold for a Yes/No legal decision might be different and could this might facilitate the outcome bias.
 
 
 ## Appendix
